@@ -15,7 +15,24 @@ const [todo, setTodo] = useState([]);
       <Ionicons  name="create" size={30} color="white" />
       </TouchableOpacity>
       </View>
+      <View style={styles.InputBackground}>
+      <TextInput
+        placeholder= 'Add New Todo'
+         style={styles.InputStyle}
+         value={}
+         />
+          
+         <TouchableOpacity style={{flex:1, alignSelf: 'center', marginLeft: 15}}> 
+      <AntDesign name="pluscircle" size={24} color="black" />
+      </TouchableOpacity>
      
+      </View>
+      <FlatList 
+      	data= {Friends}
+        renderItem= {({item}) => {
+          return <Text>{item}</Text>
+        }} />
+
       
         
     </View>)
