@@ -8,7 +8,17 @@ export default  function HomeScreen ({navigation})  {
 const [inputs, setInputs] = useState('');
 const [listItems, setList] = useState([]);
 
+const deleteTodo = dispatch => {
+  return(id) => {
+    dispatch({type : 'delete Post', payload: id})
+  }
+}
 
+function handelRemove (id) {
+  const newList = listItems.filter((item) => item.id !== id);
+ 
+    setList(newList);
+}
     return(<View>
       <View style={styles.CreateStyle} >
       <Text style={{color:'white', fontSize: 30, fontWeight: 'bold'}}>To-Do List</Text>
@@ -26,7 +36,7 @@ const [listItems, setList] = useState([]);
          />
           
          <TouchableOpacity style={{flex:1, alignSelf: 'center', marginLeft: 15}}
-         onPress={() =>{ setList([...listItems, inputs])
+         onPress={() =>{ setList([...listItems, {name: inputs,  id: Math.floor(Math.random() * 999)}])
           
         } }
          > 
@@ -38,10 +48,20 @@ const [listItems, setList] = useState([]);
       </View>
   
       <FlatList 
-      keyExtractor = {(item) => item }
+     keyExtractor={todoa => todoa.id.toString()}
       	data= {listItems}
         renderItem= {({item}) => {
-          return (<Text>{item}</Text>
+          return (
+          <View style = {{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 30}}>
+          <Text>{item.name } - {item.id}</Text>
+  
+          <TouchableOpacity
+         onPress={()=>{ handelRemove(item.id)
+         }}
+          >
+            <AntDesign name="delete" size={24} color="black" />
+            </TouchableOpacity>
+            </View>
             
             )
           
