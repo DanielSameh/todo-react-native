@@ -5,7 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
 export default  function HomeScreen ({navigation})  {
-const [todo, setTodo] = useState([]);
+const [inputs, setInputs] = useState('');
+const [listItems, setList] = useState([]);
 
 
     return(<View>
@@ -19,18 +20,31 @@ const [todo, setTodo] = useState([]);
       <TextInput
         placeholder= 'Add New Todo'
          style={styles.InputStyle}
-         value={}
+         value={inputs}
+         onChangeText={setInputs}
+         
          />
           
-         <TouchableOpacity style={{flex:1, alignSelf: 'center', marginLeft: 15}}> 
+         <TouchableOpacity style={{flex:1, alignSelf: 'center', marginLeft: 15}}
+         onPress={() =>{ setList([...listItems, inputs])
+          
+        } }
+         > 
+      
+     
       <AntDesign name="pluscircle" size={24} color="black" />
       </TouchableOpacity>
      
       </View>
+  
       <FlatList 
-      	data= {Friends}
+      keyExtractor = {(item) => item }
+      	data= {listItems}
         renderItem= {({item}) => {
-          return <Text>{item}</Text>
+          return (<Text>{item}</Text>
+            
+            )
+          
         }} />
 
       
