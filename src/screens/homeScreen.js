@@ -4,40 +4,46 @@ import { StyleSheet, Text, View,Button,FlatList,TouchableOpacity,TextInput } fro
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 
+
 export default  function HomeScreen ({navigation})  {
 const [inputs, setInputs] = useState('');
 const [listItems, setList] = useState([]);
+const [shouldShow, setShouldShow] = useState(true);
 
-const deleteTodo = dispatch => {
-  return(id) => {
-    dispatch({type : 'delete Post', payload: id})
-  }
-}
 
 function handelRemove (id) {
   const newList = listItems.filter((item) => item.id !== id);
  
     setList(newList);
 }
+
+
     return(<View>
       <View style={styles.CreateStyle} >
       <Text style={{color:'white', fontSize: 30, fontWeight: 'bold'}}>To-Do List</Text>
-      <TouchableOpacity>
+      <TouchableOpacity
+     onPress={() => setShouldShow(!shouldShow)}
+      >
       <Ionicons  name="create" size={30} color="white" />
       </TouchableOpacity>
       </View>
+
+
+{shouldShow ? (
+
       <View style={styles.InputBackground}>
+               
       <TextInput
         placeholder= 'Add New Todo'
          style={styles.InputStyle}
          value={inputs}
-         onChangeText={setInputs}
-         
-         />
+         onChangeText={setInputs }         />
           
          <TouchableOpacity style={{flex:1, alignSelf: 'center', marginLeft: 15}}
-         onPress={() =>{ setList([...listItems, {name: inputs,  id: Math.floor(Math.random() * 999)}])
-          
+         onPress={() =>{ 
+          setInputs('') 
+          setList([...listItems, {name: inputs,  id: Math.floor(Math.random() * 999)}])
+           
         } }
          > 
       
@@ -47,13 +53,16 @@ function handelRemove (id) {
      
       </View>
   
+  ) : null}
+
+
       <FlatList 
      keyExtractor={todoa => todoa.id.toString()}
       	data= {listItems}
         renderItem= {({item}) => {
           return (
           <View style = {{flexDirection: 'row', justifyContent: 'space-between', marginHorizontal: 30}}>
-          <Text>{item.name } - {item.id}</Text>
+          <Text>{item.name }</Text>
   
           <TouchableOpacity
          onPress={()=>{ handelRemove(item.id)
